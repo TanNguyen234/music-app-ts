@@ -107,6 +107,7 @@ export const like = async (req: Request, res: Response) => {
     res.json({
       code: 200,
       message: "Success",
+      like: newLike
     })
   } else {
     res.json({
