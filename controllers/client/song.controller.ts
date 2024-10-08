@@ -68,3 +68,36 @@ export const detail = async (req: Request, res: Response) => {
     res.redirect("back");
   }
 };
+
+//[PATCH] /songs/:typeLike/:idSong (API)
+export const like = async (req: Request, res: Response) => {
+  const idSong: string = req.params.idSong;
+  const typeLike: string = req.params.typeLike
+  
+  const song = await Song.findOne({
+    _id: idSong,
+    status: "active",
+    deleted: false
+  })
+
+  if(song && song.like !== null && song.like !== undefined) {
+    const newLike: number = typeLike == 'yes' ? song.like + 1 : song.like - 1
+
+    await Song.updateOne({
+      _id: idSong
+    }, {
+      like: newLike
+    })
+
+    res.json({
+      code: 200,
+      message: "Success",
+      like: newLike
+    })
+  } else {
+    res.json({
+      code: 400,
+      message: false
+    })
+  }
+}

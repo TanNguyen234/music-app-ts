@@ -26,3 +26,31 @@ if(aplayer) {
     })
 }
 //En Aplayer
+//Button Like
+const buttonLike = document.querySelector('[button-like]')
+if(buttonLike) {
+    buttonLike.addEventListener('click', () => {
+        const idSong = buttonLike.getAttribute('button-like')
+        const isActive = buttonLike.classList.contains('active');
+
+        const typeLike = isActive == true ? 'no' : 'yes';
+        
+        const link = `/songs/like/${typeLike}/${idSong}`
+
+        const span = buttonLike.querySelector('span')
+        
+        fetch(link, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+         .then(response => response.json())
+         .then(data => {
+            span.innerHTML = `${data.like} thích`
+
+            buttonLike.classList.toggle('active')
+         })
+    })
+}
+//End Button Like

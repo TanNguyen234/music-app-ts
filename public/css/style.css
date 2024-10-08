@@ -140,6 +140,14 @@
     color: rgb(10, 85, 154)
 }
 
+.singer-detail .inner-like.active {
+    color: rgb(10, 85, 154);
+}
+
+.singer-detail .inner-like.active i {
+    font-weight: 900;
+}
+
 .singer-detail .inner-heart i {
     color: rgb(255, 53, 53);
 }
@@ -165,7 +173,7 @@
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid orange;
-    animation: play infinite linear 12s;
+    animation: play infinite linear 12s paused;
 }
 
 .singer-detail .inner-play .inner-avatar img {
