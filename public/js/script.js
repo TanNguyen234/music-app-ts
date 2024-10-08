@@ -37,8 +37,6 @@ if(buttonLike) {
         
         const link = `/songs/like/${typeLike}/${idSong}`
 
-        const span = buttonLike.querySelector('span')
-        
         fetch(link, {
             method: 'PATCH',
             headers: {
@@ -47,10 +45,40 @@ if(buttonLike) {
         })
          .then(response => response.json())
          .then(data => {
-            span.innerHTML = `${data.like} thích`
+            if(data.code === 200) {
+                const span = buttonLike.querySelector('span')
 
-            buttonLike.classList.toggle('active')
+                span.innerHTML = `${data.like} thích`
+
+                buttonLike.classList.toggle('active')
+            }
          })
-    })
+    })  
 }
 //End Button Like
+//Button Favorite
+const buttonFavorite = document.querySelector('[button-favorite]')
+if(buttonFavorite) {
+    buttonFavorite.addEventListener('click', () => {
+        const idSong = buttonFavorite.getAttribute('button-favorite')
+        const isActive = buttonFavorite.classList.contains('active');
+
+        const type = isActive == true ? 'unfavorite' : 'favorite';
+        
+        const link = `/songs/favorite/${type}/${idSong}`
+
+        fetch(link, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+         .then(response => response.json())
+         .then(data => {
+            if(data.code === 200) {
+                buttonFavorite.classList.toggle('active')
+            }
+         })
+    })  
+}
+//End Button Favorite

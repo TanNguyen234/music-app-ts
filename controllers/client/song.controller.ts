@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
+import FavoriteSong from "../../models/favorite-song.model";
 
 // [GET] /songs/:slugTopic
 export const songs = async (req: Request, res: Response) => {
@@ -48,28 +49,42 @@ export const detail = async (req: Request, res: Response) => {
       status: "active",
     })
 
-    const singer = await Singer.findOne({
-      _id: song?.singerId,
-      deleted: false,
-    }).select('fullName')
+    if(song && song != null && song != undefined) {
+      const singer = await Singer.findOne({
+        _id: song.singerId,
+        deleted: false,
+      }).select('fullName')
+  
+      const topic = await Topic.findOne({
+        _id: song.topicId,
+        deleted: false,
+      }).select('title')  
 
-    const topic = await Topic.findOne({
-      _id: song?.topicId,
-      deleted: false,
-    }).select('title')
+      let favorite: boolean = false
+  
+      const favoriteSong = await FavoriteSong.findOne({
+        // userId: '',
+        songId: song.id
+      })
 
-    res.render("client/pages/songs/detail.pug", {
-      pageTitle: "Trang chi tiết bài hát",
-      song: song,
-      singer: singer,
-      topic: topic
-    });
+      if(favoriteSong) {
+        favorite = true;
+      }
+
+      res.render("client/pages/songs/detail.pug", {
+        pageTitle: "Trang chi tiết bài hát",
+        song: song,
+        singer: singer,
+        topic: topic,
+        favorite: favorite
+      });
+    }
   } catch (error) {
     res.redirect("back");
   }
 };
 
-//[PATCH] /songs/:typeLike/:idSong (API)
+//[PATCH] /songs/like/:typeLike/:idSong (API)
 export const like = async (req: Request, res: Response) => {
   const idSong: string = req.params.idSong;
   const typeLike: string = req.params.typeLike
@@ -92,12 +107,57 @@ export const like = async (req: Request, res: Response) => {
     res.json({
       code: 200,
       message: "Success",
-      like: newLike
     })
   } else {
     res.json({
       code: 400,
-      message: false
+      message: "fail"
     })
   }
+}
+//[PATCH] /songs/favorite/:type/:idSong (API)
+export const favorite = async (req: Request, res: Response) => {
+  const idSong: string = req.params.idSong;
+  const type: string = req.params.type
+
+    switch (type) {
+      case "favorite":
+        const exitFavorite = await FavoriteSong.findOne({
+          songId: idSong,
+        })
+
+        if(!exitFavorite) {
+          const favorite = new FavoriteSong({
+            // userId: "",
+            songId: idSong
+          })
+          
+          await favorite.save()
+        }
+
+        res.json({
+          code: 200,
+          message: "Success"
+        })
+        break;
+      case "unfavorite":
+        await FavoriteSong.deleteOne({
+          // userId: "",
+          songId: idSong
+        })
+
+        res.json({
+          code: 200,
+          message: "Success"
+        })
+
+        break;
+      default:
+        res.json({
+          code: 400,
+          message: "fail"
+        })
+
+        break;
+    }
 }

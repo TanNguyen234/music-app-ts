@@ -152,6 +152,14 @@
     color: rgb(255, 53, 53);
 }
 
+.singer-detail .inner-heart.active i {
+    font-weight: 900;
+}
+
+.singer-detail .inner-heart.active {
+    color: rgb(255, 53, 53);
+}
+
 .singer-detail .inner-play {
     display: flex;
     align-items: center;
