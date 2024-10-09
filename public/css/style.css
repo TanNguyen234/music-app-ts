@@ -144,7 +144,7 @@
     color: rgb(10, 85, 154);
 }
 
-.singer-detail .inner-like.active i {
+.inner-like.active i {
     font-weight: 900;
 }
 
@@ -152,11 +152,11 @@
     color: rgb(255, 53, 53);
 }
 
-.singer-detail .inner-heart.active i {
+.inner-heart.active i {
     font-weight: 900;
 }
 
-.singer-detail .inner-heart.active {
+.inner-heart.active {
     color: rgb(255, 53, 53);
 }
 

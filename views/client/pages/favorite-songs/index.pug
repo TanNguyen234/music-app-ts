@@ -1,0 +1,24 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+  .container.my-3
+    .row 
+      .col-12 
+        +box-head(pageTitle)
+    .row
+      for song in favoriteSongs
+        .col-6.mb-3 
+          .song-item 
+            .inner-image
+              a(href='/songs/detail/:slugSong')
+                img(src=song.infoSong.avatar alt=song.infoSong.slug)
+            .inner-content
+              .inner-title
+                a(href=`/songs/detail/${song.infoSong.slug}`) #{song.infoSong.title}
+              .inner-singer <i class="fa-solid fa-microphone-lines"></i> #{song.infoSinger.fullName}
+              div(class="inner-action inner-heart active" button-favorite=song.songId)
+                <i class="fa-regular fa-heart"></i> Bài hát yêu thích
+              .inner-time
+                i(class="fa-regular fa-clock")
+                span #{ song.createdAt}
