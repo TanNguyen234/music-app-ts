@@ -204,3 +204,15 @@
     font-weight: 600;
 }
 /* End Singer Detail */
+/* Search  */
+.box-search form div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.box-search form input {
+    width: 70%;
+    margin-right: 5px;
+}
+/* End Search  */

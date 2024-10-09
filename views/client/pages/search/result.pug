@@ -7,8 +7,9 @@ block main
       .col-12 
         +box-head(pageTitle)
     .row
-      for song in songs
-        .col-3.mb-3 
+      if(songs.length > 0)
+       for song in songs
+        .col-6.mb-3 
           .song-item 
             .inner-image
               a(href='/songs/detail/:slugSong')
@@ -17,7 +18,13 @@ block main
               .inner-title
                 a(href=`/songs/detail/${song.slug}`) #{song.title}
               .inner-singer <i class="fa-solid fa-microphone-lines"></i> #{song.infoSinger.fullName}
-              .inner-like <i class="fa-solid fa-thumbs-up"></i> #{song.like}
-              .inner-time <i class="fa-regular fa-clock"></i>
-                if(song.createdAt)
-                  span #{song.createdAt}
+              div(class="inner-action inner-heart active" button-favorite=song.songId)
+                <i class="fa-regular fa-heart"></i> Bài hát yêu thích
+              .inner-time
+                i(class="fa-regular fa-clock")
+                if(song.updatedAt)
+                  span #{song.updatedAt}
+      else 
+        .col-12
+          .text-center
+            h3 Không tìm thấy

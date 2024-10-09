@@ -21,4 +21,5 @@ block main
                 <i class="fa-regular fa-heart"></i> Bài hát yêu thích
               .inner-time
                 i(class="fa-regular fa-clock")
-                span #{ song.createdAt}
+                if(song.createdAt)
+                  span #{ song.createdAt}
