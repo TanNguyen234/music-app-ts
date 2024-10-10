@@ -3,8 +3,10 @@ import Song from "../../models/song.model"
 import Singer from "../../models/singer.model"
 import { convertToSlug } from "../../helpers/convertToSlug";
 
-// [GET] /search/result
+// [GET] /search/:type
 export const result = async (req: Request, res: Response) => {
+    const type: string = req.params.type;
+
     const keyword: string = `${req.query.keyword}`;
 
     if(keyword) {
@@ -30,11 +32,30 @@ export const result = async (req: Request, res: Response) => {
             song["infoSinger"] = infoSinger
         }
 
-        res.render('client/pages/search/result.pug', {
-            pageTitle: `Kết quả: ${keyword}`,
-            keyword: keyword,
-            songs: songs ?? []
-        })
+        switch (type) {
+            case "result":
+                res.render('client/pages/search/result.pug', {
+                    pageTitle: `Kết quả: ${keyword}`,
+                    keyword: keyword,
+                    songs: songs ?? []
+                })
+                break;
+        
+            case "suggest":
+                res.json({
+                    code: 200,
+                    message: "Thành công",
+                    songs: songs ?? []
+                })
+
+                break;
+            default:
+                res.json({
+                    code: 400,
+                    message: "Failed"
+                })
+                break;
+        }
     } else {
         res.redirect('back')
     }

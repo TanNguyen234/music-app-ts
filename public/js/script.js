@@ -90,7 +90,59 @@ if(buttonFavorite) {
 const time = document.querySelectorAll('.inner-time span')
 if(time) {
     time.forEach(item => {
-        item.innerHTML = " " + moment(item.innerHTML, "MM-DD-YYYY").calendar()
+        item.innerHTML = " " + moment(item.innerHTML, "DD-MM-YYYY").calendar()
     })
 }
 //End Format Time
+//Search Suggest
+const boxSearch = document.querySelector('.box-search')
+if(boxSearch) {
+    const input = document.querySelector('input[name="keyword"')
+    const boxSuggest = boxSearch.querySelector('.inner-suggest')
+
+    input.addEventListener('keyup', (e) => {
+        if(input.value === '') {
+            boxSuggest.classList.remove('show')
+        }
+        
+        const keyword = input.value
+        const link = `/search/suggest?keyword=${keyword}`
+    
+        fetch(link, {
+            method: 'GET'
+        })
+         .then(response => response.json())
+         .then(data => {
+               if(data.code === 200) {
+                const songs = data.songs
+                if(songs.length > 0) {
+                    boxSuggest.classList.add('show')
+
+                    const htmls = songs.map(song => {
+                        return `    
+                           <a href="/songs/detail/${song.slug}" class="inner-item">
+                            <div class="inner-image">
+                              <img src=${song.avatar} alt=${song.title}/>
+                            </div>
+                            <div class="inner-info">
+                              <div class="inner-title"> ${song.title} </div>
+                              <div class="inner-singer"> 
+                                <i class="fa-solid fa-microphone-lines"></i> 
+                                <span> ${song.infoSinger.fullName} </span>
+                              </div>
+                            </div>
+                           </a>
+                        `
+                    })
+
+                    const boxList = boxSuggest.querySelector('.inner-list')
+                    console.log(boxList)
+                    boxList.innerHTML = htmls.join("")
+                } else {
+                    boxSuggest.classList.remove('show')
+                }
+            }
+         })
+    })
+}
+//End Search Suggest
