@@ -90,7 +90,12 @@ if(buttonFavorite) {
 const time = document.querySelectorAll('.inner-time span')
 if(time) {
     time.forEach(item => {
-        item.innerHTML = " " + moment(item.innerHTML, "DD-MM-YYYY").calendar()
+        const text = item.innerHTML
+        if(text.length > 0) {
+            item.innerHTML = " " + moment(text, "MM-DD-YYYY").calendar()
+        } else {
+            item.innerHTML = " " + "N/A"
+        }
     })
 }
 //End Format Time

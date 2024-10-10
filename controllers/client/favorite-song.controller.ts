@@ -22,8 +22,6 @@ export const index = async (req: Request, res: Response) => {
 
         item["infoSong"] = infoSong
 
-        console.log(item)
-
         item["infoSinger"] = infoSinger
     }
 
