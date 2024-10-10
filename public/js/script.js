@@ -24,6 +24,24 @@ if(aplayer) {
     ap.on('pause', () => {
         avatar.style.animationPlayState = "paused"
     })
+
+    ap.on('ended', () => {
+        const link = `/songs/listen/${dataSong._id}`
+        const span = document.querySelector('.inner-listen span')
+            fetch(link, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+             .then(response => response.json())
+             .then(data => {
+                if(span && data.code == 200) {
+                    console.log(data)
+                    span.innerHTML = `${data.newListen} lượt nghe`
+                }
+             })
+    })
 }
 //En Aplayer
 //Button Like

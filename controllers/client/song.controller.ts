@@ -162,3 +162,34 @@ export const favorite = async (req: Request, res: Response) => {
         break;
     }
 }
+//[PATCH] /songs/listen/:idSong
+export const listen = async (req: Request, res: Response) => {
+  const idSong: string = req.params.idSong;
+  
+  const song = await Song.findOne({
+    _id: idSong
+  })
+
+  if(song && song.like !== null && song.like !== undefined) {
+    const listen: number = song.listen + 1;
+
+    await Song.updateOne({
+      _id: idSong
+    }, {
+      listen: listen
+    })
+
+    const newSong = await Song.findOne({ _id: idSong})
+
+    res.json({
+      code: 200,
+      message: "Success",
+      newListen: newSong?.listen
+    })
+  } else {
+    res.json({
+      code: 400,
+      message: "fail"
+    })
+  }
+}
