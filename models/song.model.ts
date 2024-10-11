@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+const slug = require('mongoose-slug-updater');
+mongoose.plugin(slug)
 
 const songSchema = new mongoose.Schema({//Thiết lập schema
   title: String,
@@ -18,7 +20,7 @@ const songSchema = new mongoose.Schema({//Thiết lập schema
   },
   lyrics: String,
   audio: String,
-  slug: String,
+  slug: { type: String, slug: "title", unique: true },
   deleted: {
     type: Boolean,
     default: false

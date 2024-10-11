@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug
+
+block main
+
+  h1 #{pageTitle}
+
+  form(id="form-create-product" method="POST" action=`${prefixAdmin}/products/create` enctype="multipart/form-data")-// Thư viện upload multer
+    .form-group 
+      label(for="title") Tiêu đề 
+      input(type="text" class="form-control" id="title" name="title" required)
+    .form-group 
+      label(for="topic") Chủ đề
+      select(class="form-control" id="topic" name="topicId" required)
+        option(value="" disabled selected) -- Chọn chủ để --
+        if(topics.length > 0)
+          each topic in topics
+            option(value=topic.id) #{topic.title}
+    .form-group 
+      label(for="singer") Ca sĩ
+      select(class="form-control" id="singer" name="singerId" required)
+        option(value="" disabled selected) -- Chọn ca sĩ --
+        if(singers.length > 0)
+          each singer in singers
+            option(value=singer.id) #{singer.fullName}
+    div(class="form-group" upload-image)
+      label(for="thumbnail") Ảnh
+      input(type="file" class="form-control-file" upload-image-input id="thumbnail" name="thumbnail" accept="image/*")
+      div(update)
+        img(src="" class="upload-image-preview" upload-image-preview alt="")
+        span x
+
+      //-type="file" and accept="image/* và class="form-control-file" của boostrap để css
+    .form-group.fix-size
+      label(for="desc") Mô tả
+      textarea(class="form-control textarea-mce fix-size" textarea-mce id="desc" name="description" rows="5")
+    .form-group.form-check.form-check-inline 
+      input(type="radio" class="form-check-input" id="statusAcive" name="status" value="active" checked)
+      label(for="statusAcive" class="from-check-label") Hoạt động
+    .form-group.form-check.form-check-inline 
+      input(type="radio" class="form-check-input" id="statusInacive" name="status" value="inactive")
+      label(for="statusInacive" class="from-check-label") Dừng hoạt động
+    .from-group
+      button(type="submit" class="btn btn-primary") Thêm mới
