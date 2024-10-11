@@ -37,7 +37,6 @@ if(aplayer) {
              .then(response => response.json())
              .then(data => {
                 if(span && data.code == 200) {
-                    console.log(data)
                     span.innerHTML = `${data.newListen} lượt nghe`
                 }
              })
