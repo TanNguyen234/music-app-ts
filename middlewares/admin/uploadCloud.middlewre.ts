@@ -1,41 +1,39 @@
 import { Request, Response, NextFunction } from "express";
-import  { v2 as cloudinary} from "cloudinary";
-import streamifier from "streamifier";
-import dotenv from 'dotenv'
-dotenv.config()
+import { uploadToCloudinary } from "../../helpers/uploadToCloudianry";
 
-//Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_KEY,
-  api_secret: process.env.CLOUD_SECRET
-});
-//End Cloudinary
+export const uploadSingle = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  //Hàm Upload lên cloudinary
+  if (req.file) {
+    const link = await uploadToCloudinary(req.file.buffer, req.file.mimetype);
+    req.body[req.file.fieldname] = link; //req.file.fieldname để linh động thay cho req.body.thumbnail vì khi upload có thể là thumbnail hoặc image
+  }
 
-let streamUpload = (buffer: any) => {
-  return new Promise((resolve, reject) => {
-    let stream = cloudinary.uploader.upload_stream((error, result) => {
-      if (result) {
-        resolve(result);
-      } else {
-        reject(error);
-      }
-    });
-
-    streamifier.createReadStream(buffer).pipe(stream);
-  });
+  next();
 };
 
-const uploadToCloudinary = async (buffer: any) => {
-  let result: any = await streamUpload(buffer);   
-  return result.secure_url;
-} //Tạo một trường req.file.fieldname trong req.body có giá trị result.secure_url để trong controller luu vào database
-
-export const uploadSingle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {//Hàm Upload lên cloudinary
-    if (req.file) {
-      const link = await uploadToCloudinary(req.file.buffer);
-      req.body[req.file.fieldname] = link; //req.file.fieldname để linh động thay cho req.body.thumbnail vì khi upload có thể là thumbnail hoặc image
+export const uploadFields = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //Hàm Upload lên cloudinary
+  const files = req.files as unknown as { [fieldname: string]: File[] }; //Sử dụng ep kiểu với unknown
+    for (const key in files) {
+      const array = files[key]
+      for (const item of array) {
+        try {
+          let file: any = item;
+          const result = await uploadToCloudinary(file.buffer, file.mimetype);
+          const field: string = file.mimetype === 'image/jpeg' ? 'avatar' : 'audio'
+          req.body[field] = result; //req.file.fieldname để linh động thay cho req.body.thumbnail vì khi upload có thể là thumbnail hoặc image
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
-    
-    next();
-}
+  next();
+};

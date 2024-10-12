@@ -42,17 +42,20 @@ interface Song {
   description?: string;
   status: string;
   avatar?: string;
+  audio?: string;
 }
+
 // [POST] /admin/songs/create
 export const createPost = async (req: Request, res: Response) => {
-  //Nhớ thêm validate
+  //Nhớ thêm validate cho title
   const dataSong: Song = {
     title: req.body.title,
     topicId: req.body.topicId,
     singerId: req.body.singerId,
     description: req.body.description,
     status: req.body.status,
-    avatar: req.body.avatar,
+    avatar: req.body.avatar || '',
+    audio: req.body.audio || ''
   };
 
   const song = new Song(dataSong);
