@@ -12,7 +12,7 @@ export const index = async (req: Request, res: Response) => {
 
   res.render("admin/pages/songs/index.pug", {
     pageTitle: "Quản lý bài hát",
-    songs: songs,
+    songs: songs.reverse(),
   });
 };
 
@@ -35,20 +35,28 @@ export const create = async (req: Request, res: Response) => {
   });
 };
 
+interface Song {
+  title: string;
+  topicId?: string;
+  singerId?: string;
+  description?: string;
+  status: string;
+  avatar?: string;
+}
 // [POST] /admin/songs/create
 export const createPost = async (req: Request, res: Response) => {
   //Nhớ thêm validate
-  const dataSong = {
+  const dataSong: Song = {
     title: req.body.title,
     topicId: req.body.topicId,
     singerId: req.body.singerId,
     description: req.body.description,
     status: req.body.status,
-    avatar: req.body.avatar
-  }
+    avatar: req.body.avatar,
+  };
 
-  const song = new Song(dataSong)
-  await song.save()
+  const song = new Song(dataSong);
+  await song.save();
 
-  res.redirect(`/${systemConfig.prefixAmin}/songs`)
+  res.redirect(`/${systemConfig.prefixAmin}/songs`);
 };
