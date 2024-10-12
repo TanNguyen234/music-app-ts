@@ -28,6 +28,9 @@ app.use(
 //App Local Variables
 app.locals.prefixAdmin = systemConfig.prefixAmin
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
 //Client routes
 clientRoutes(app)
 //Admin routes

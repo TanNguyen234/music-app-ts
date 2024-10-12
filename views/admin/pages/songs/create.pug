@@ -4,14 +4,14 @@ block main
 
   h1 #{pageTitle}
 
-  form(id="form-create-product" method="POST" action=`${prefixAdmin}/products/create` enctype="multipart/form-data")-// Thư viện upload multer
+  form(id="form-create-product" method="POST" action=`/${prefixAdmin}/songs/create` enctype="multipart/form-data")-// Thư viện upload multer
     .form-group 
       label(for="title") Tiêu đề 
       input(type="text" class="form-control" id="title" name="title" required)
     .form-group 
       label(for="topic") Chủ đề
       select(class="form-control" id="topic" name="topicId" required)
-        option(value="" disabled selected) -- Chọn chủ để --
+        option(value="" disabled selected) -- Chọn chủ đề --
         if(topics.length > 0)
           each topic in topics
             option(value=topic.id) #{topic.title}
@@ -23,8 +23,8 @@ block main
           each singer in singers
             option(value=singer.id) #{singer.fullName}
     div(class="form-group" upload-image)
-      label(for="thumbnail") Ảnh
-      input(type="file" class="form-control-file" upload-image-input id="thumbnail" name="thumbnail" accept="image/*")
+      label(for="avatar") Ảnh
+      input(type="file" class="form-control-file" upload-image-input id="avatar" name="avatar" accept="image/*")
       div(update)
         img(src="" class="upload-image-preview" upload-image-preview alt="")
         span x
