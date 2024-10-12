@@ -106,3 +106,40 @@ div[upload-image] div {
     border: 1px solid #ddd;
  }
  /* End Preview Anh */
+ /* Play Audio  */
+div[upload-audio] div {
+    position: relative;
+    width: 300px;
+    height: auto;
+    margin: 4px;
+    display: none;
+ }
+ 
+ div[upload-audio] div[update] {
+     display: block;
+  }
+
+  audio[upload-audio-play] {
+    display: inline-block;
+  }
+ 
+ audio[upload-audio-play] + span {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    color: #ffffff;
+    background-color: #000;
+    z-index: -1;
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    top: 10px;
+    right: -10%;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+ }
+
+ /* End Play Audio */

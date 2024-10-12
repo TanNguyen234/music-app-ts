@@ -30,9 +30,13 @@ block main
         span x
 
       //-type="file" and accept="image/* và class="form-control-file" của boostrap để css
-    div(class="form-group")
+    div(class="form-group" upload-audio)
       label(for="audio") File âm thanh
-      input(type="file" class="form-control-file" id="audio" name="audio" accept="audio/*")
+      input(type="file" class="form-control-file" upload-audio-input id="audio" name="audio" accept="audio/*")
+      div(update)
+        audio(controls upload-audio-play alt)
+          source(src='')
+        span x
       //-Chỉ accepte file audio
     .form-group.fix-size
       label(for="desc") Mô tả
