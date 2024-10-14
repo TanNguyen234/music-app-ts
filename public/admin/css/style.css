@@ -131,7 +131,6 @@ div[upload-audio] div {
     position: absolute;
     color: #ffffff;
     background-color: #000;
-    z-index: -1;
     font-size: 18px;
     width: 30px;
     height: 30px;

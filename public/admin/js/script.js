@@ -46,20 +46,21 @@ if(uploadAudio) {
     uploadAudioInput.addEventListener('change', (e) => {
         uploadAudio.children[2].style.display = 'flex';
         let file = e.target.files[0];
-        const x = uploadAudio.children[2].children[1];
-        
+        const x = uploadAudio.querySelector('span')
+
         if(file) {
             source.src = URL.createObjectURL(file)//Hàm tạo đường dẫn
             uploadAudioPlay.load()
         }
 
-        console.log(x)
-
-        x.addEventListener('click', (e) => {
+        x.addEventListener('click', () => {
             update.style.display = 'none';
             source.src = ""
             uploadAudioInput.value = "";
+            uploadAudioPlay.pause(); // Pause the audio if it's playing
+            uploadAudioPlay.currentTime = 0; // Reset playback to the beginning
         })
+        
     })
 }
 //End Upload Audio
