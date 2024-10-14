@@ -55,13 +55,70 @@ export const createPost = async (req: Request, res: Response) => {
     singerId: req.body.singerId,
     description: req.body.description,
     status: req.body.status,
-    avatar: req.body.avatar || '',
-    audio: req.body.audio || '',
-    lyrics: req.body.lyrics || ''
+    avatar: req.body.avatar || "",
+    audio: req.body.audio || "",
+    lyrics: req.body.lyrics || "",
   };
 
   const song = new Song(dataSong);
   await song.save();
 
   res.redirect(`/${systemConfig.prefixAmin}/songs`);
+};
+
+// [GET] /admin/songs/edit/:id
+export const edit = async (req: Request, res: Response) => {
+  const id: string = req.params.id;
+
+  const song = await Song.findOne({
+    _id: id,
+    deleted: false,
+  });
+
+  const topics = await Topic.find({
+    deleted: false,
+  }).select("title");
+
+  const singers = await Singer.find({
+    deleted: false,
+  }).select("fullName");
+
+  res.render("admin/pages/songs/edit.pug", {
+    pageTitle: "Chỉnh sửa bài hát",
+    song: song,
+    topics: topics,
+    singers: singers,
+  });
+};
+
+// [PATCH] /admin/songs/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+  const id: string = req.params.id;
+
+  //Nhớ thêm validate cho title
+  const dataSong: Song = {
+    title: req.body.title,
+    topicId: req.body.topicId,
+    singerId: req.body.singerId,
+    description: req.body.description,
+    status: req.body.status,
+    lyrics: req.body.lyrics || "",
+  };
+
+  if (req.body.avatar) {
+    dataSong.avatar = req.body.avatar;
+  }
+
+  if (req.body.audio) {
+    dataSong.audio = req.body.audio;
+  }
+
+  await Song.updateOne(
+    {
+      _id: id,
+    },
+    dataSong
+  );
+
+  res.redirect("back");
 };

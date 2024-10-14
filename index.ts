@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import * as database from './config/database'
 import path from 'path'
+import methodOverride from 'method-override';
 
 import clientRoutes from './routes/client/index.route';
 import adminRoutes from './routes/admin/index.route';
@@ -30,6 +31,8 @@ app.locals.prefixAdmin = systemConfig.prefixAmin
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
+
+app.use(methodOverride("_method"))
 
 //Client routes
 clientRoutes(app)

@@ -4,51 +4,51 @@ block main
 
   h1 #{pageTitle}
 
-  form(id="form-create-product" method="POST" action=`/${prefixAdmin}/songs/create` enctype="multipart/form-data")-// Thư viện upload multer
+  form(id="form-create-product" method="POST" action=`/${prefixAdmin}/songs/edit/${song.id}?_method=PATCH` enctype="multipart/form-data")-// Thư viện upload multer
     .form-group 
       label(for="title") Tiêu đề 
-      input(type="text" class="form-control" id="title" name="title" required)
+      input(type="text" class="form-control" id="title" name="title" required value=song.title)
     .form-group 
       label(for="topic") Chủ đề
       select(class="form-control" id="topic" name="topicId" required)
         option(value="" disabled selected) -- Chọn chủ đề --
         if(topics.length > 0)
           each topic in topics
-            option(value=topic.id) #{topic.title}
+            option(value=topic.id selected=(topic.id == song.topicId ? true : false)) #{topic.title}
     .form-group 
       label(for="singer") Ca sĩ
       select(class="form-control" id="singer" name="singerId" required)
         option(value="" disabled selected) -- Chọn ca sĩ --
         if(singers.length > 0)
           each singer in singers
-            option(value=singer.id) #{singer.fullName}
+            option(value=singer.id selected=(singer.id == song.singerId ? true : false)) #{singer.fullName}
     div(class="form-group" upload-image)
       label(for="avatar") Ảnh
       input(type="file" class="form-control-file" upload-image-input id="avatar" name="avatar" accept="image/*")
-      div
-        img(src="" class="upload-image-preview" upload-image-preview alt="")
+      div(update)
+        img(src=song.avatar class="upload-image-preview" upload-image-preview alt="")
         span x
 
       //-type="file" and accept="image/* và class="form-control-file" của boostrap để css
     div(class="form-group" upload-audio)
       label(for="audio") File âm thanh
-      input(type="file" class="form-control-file" upload-audio-input id="audio" name="audio" accept="audio/*")
-      div
+      input(value=song.audio type="file" class="form-control-file" upload-audio-input id="audio" name="audio" accept="audio/*")
+      div(update)
         audio(controls upload-audio-play alt)
-          source(src='')
+          source(src=song.audio)
         span x
     .form-group
       label(for="lyrics") Lời bài hát
-      textarea(class="form-control" id="lyrics" name="lyrics" rows="20")
+      textarea(class="form-control" id="lyrics" name="lyrics" rows="20") #{song.lyrics}
       //-Chỉ accepte file audio
     .form-group.fix-size
       label(for="desc") Mô tả
-      textarea(class="form-control textarea-mce fix-size" textarea-mce id="desc" name="description" rows="5")
+      textarea(class="form-control textarea-mce fix-size" textarea-mce id="desc" name="description" rows="5") #{song.description}
     .form-group.form-check.form-check-inline 
-      input(type="radio" class="form-check-input" id="statusAcive" name="status" value="active" checked)
+      input(type="radio" class="form-check-input" id="statusAcive" name="status" value="active" checked=(song.status == "active" ? true : false))
       label(for="statusAcive" class="from-check-label") Hoạt động
     .form-group.form-check.form-check-inline 
-      input(type="radio" class="form-check-input" id="statusInacive" name="status" value="inactive")
+      input(type="radio" class="form-check-input" id="statusInacive" name="status" value="inactive" checked=(song.status == "active" ? false : true))
       label(for="statusInacive" class="from-check-label") Dừng hoạt động
     .from-group
-      button(type="submit" class="btn btn-primary") Thêm mới
+      button(type="submit" class="btn btn-primary") Chỉnh sửa
