@@ -37,6 +37,9 @@ block main
         audio(controls upload-audio-play alt)
           source(src='')
         span x
+    .form-group
+      label(for="lyrics") Lời bài hát
+      textarea(class="form-control" id="lyrics" name="lyrics" rows="20")
       //-Chỉ accepte file audio
     .form-group.fix-size
       label(for="desc") Mô tả

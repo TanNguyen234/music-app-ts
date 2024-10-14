@@ -43,6 +43,7 @@ interface Song {
   status: string;
   avatar?: string;
   audio?: string;
+  lyrics?: string;
 }
 
 // [POST] /admin/songs/create
@@ -55,7 +56,8 @@ export const createPost = async (req: Request, res: Response) => {
     description: req.body.description,
     status: req.body.status,
     avatar: req.body.avatar || '',
-    audio: req.body.audio || ''
+    audio: req.body.audio || '',
+    lyrics: req.body.lyrics || ''
   };
 
   const song = new Song(dataSong);

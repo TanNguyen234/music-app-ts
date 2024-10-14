@@ -203,6 +203,11 @@
     font-size: 18px;
     font-weight: 600;
 }
+
+.singer-detail .inner-desc .inner-text {
+    font-size: 14px;
+    white-space: pre;
+}
 /* End Singer Detail */
 /* Search  */
 .box-search form div {
