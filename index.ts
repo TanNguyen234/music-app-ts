@@ -16,7 +16,7 @@ const port: number | string = process.env.PORT || 3000;
 
 app.use(express.static(`${__dirname}/public`))
 
-app.set('views', `${__dirname}/viewss`); //Sửa như vầy deloy nó mới hiểu
+app.set('views', `${__dirname}/views`); //Sửa như vầy deloy nó mới hiểu
 app.set('view engine', 'pug');
 
 //TinyMCE
