@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+  .container.my-3
+    .row 
+      .col-12 
+        +box-head('Chủ đề bài hát')
+    .row 
+      for topic in topics
+        .col-3.mb-3 
+          .card 
+            img(src=topic.avatar alt=topic.title)
+            .card-body
+              h5.card-title #{topic.title} 
+              .card-text #{topic.description}
+              a(href=`/songs/${topic.slug}` class='btn btn-primary') Xem chi tiết

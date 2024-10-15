@@ -14,9 +14,9 @@ database.connect();
 const app: Express = express();
 const port: number | string = process.env.PORT || 3000;
 
-app.use(express.static('public'))
+app.use(express.static(`${__dirname}/public`))
 
-app.set('views', './views');
+app.set('views', `${__dirname}/viewss`); //Sửa như vầy deloy nó mới hiểu
 app.set('view engine', 'pug');
 
 //TinyMCE
