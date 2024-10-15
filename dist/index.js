@@ -39,7 +39,7 @@ database.connect();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(express_1.default.static(`${__dirname}/public`));
-app.set('views', `${__dirname}/viewss`);
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 app.use("/tinymce", express_1.default.static(path_1.default.join(__dirname, "node_modules", "tinymce")));
 app.locals.prefixAdmin = config_1.systemConfig.prefixAmin;
